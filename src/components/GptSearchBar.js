@@ -1,5 +1,5 @@
 import React from 'react'
-import lang from '../utils/languageConstants'
+import lang from '../utils/languageConstant'
 import { useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { GoogleGenerativeAI } from "@google/generative-ai";
