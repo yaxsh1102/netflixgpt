@@ -1,11 +1,10 @@
 import { tmdb_url } from '../utils/constants'
 import { options } from '../utils/constants'
 import { useEffect } from 'react';
-import { useDispatch , useSelector } from 'react-redux';
+import { useDispatch  } from 'react-redux';
 import { addNowPlayingMovies } from '../utils/movieSlice';
 const useNowPlayingMovies = () =>{
 const dispatch= useDispatch()
-const movies = useSelector((store) => store.movies?.nowPlayingMovies);
 useEffect(() => {
   fetchApi()
 }, [])

@@ -7,7 +7,6 @@ const MainContainer = () => {
   const movies = useSelector((store) => store.movies?.nowPlayingMovies);
 
   if (!movies || movies.length === 0) {
-    // Render a loading state or an empty div while movies are being fetched
     return <div>Loading...</div>;
   }
 
@@ -15,7 +14,7 @@ const MainContainer = () => {
   console.log(mainMovie)
 
   return (
-    <div>
+    <div className="pt-[30%] md:pt-0 bg-black">
       <VideoTitle title={mainMovie?.original_title} overview={mainMovie?.overview} />
       <VideoBackground movieId={mainMovie.id}/>
     </div>

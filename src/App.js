@@ -7,10 +7,9 @@ import Browse from './components/Browse';
 
 
 const App = () => {
-
-
   return (
       <Provider store={appStore}>
+        
 
         <Body />
       </Provider>

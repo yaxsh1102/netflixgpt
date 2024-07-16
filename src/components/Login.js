@@ -1,63 +1,86 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState } from 'react';
 import Header from './Header';
 import { checkValidData } from '../utils/validate';
 import { addUser } from '../utils/userSlice';
-import { useDispatch , useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { BACKGROUND_URL } from '../utils/constants';
 
-
 const Login = () => {
+  const [isSignInForm, setIsSignInForm] = useState(true);
+  const email = useRef(null);
+  const password = useRef(null);
+  const name = useRef(null);
+  const [errorMessage, setErrorMessage] = useState('');
+  const dispatch = useDispatch();
 
-  
-    const [isSignInForm , setIsSignInForm] = useState(true) ;
-    const email = useRef(null) ;
-    const password = useRef(null) ;
-    const name = useRef(null) ;
-    const [errorMessage , setErrorMessage] = useState()
-    const dispatch = useDispatch()
-   const user = useSelector((state)=>state.user)
+  function toggleSignInForm() {
+    setIsSignInForm(!isSignInForm);
+  }
 
-    function toggleSignInForm(){
-        setIsSignInForm(!isSignInForm)
- }
- 
- 
+  function handleButtonClick() {
+    const userEmail = email.current.value;
+    const userPassword = password.current.value;
+    const userName = name.current.value;
 
- function handleButtonClick() {
-  const userEmail = email.current.value;
-  const userPassword = password.current.value;
-  const userName = name.current.value;
+    const validationError = checkValidData(userEmail, userPassword);
+    setErrorMessage(validationError);
 
-  const validationError = checkValidData(userEmail, userPassword);
-  setErrorMessage(validationError);
+    if (validationError) return;
 
-  if (validationError) return;
-
-  dispatch(addUser({ email: userEmail, password: userPassword  , displayName:userName}));
-}
+    dispatch(addUser({ email: userEmail, password: userPassword, displayName: userName }));
+  }
 
   return (
     <div>
-        <Header></Header>
-        <div className='absolute h-full'>
-        <img src={BACKGROUND_URL} alt='logo'></img>
-
-        </div>
-
-        <form className='w-3/12 absolute p-12 bg-black my-36 mx-auto right-0 left-0 opacity-[0.90]' onSubmit={(e)=>e.preventDefault()}>
-        <h1 className='font-bold text-3xl py-4 text-white'>{ isSignInForm ? "Sign In" : "Sign Up"}</h1>
-        {isSignInForm===false  && (<input type='text' placeholder='Name' className='p-4 my-4 w-full bg-[#444444] text-white' ref={name}></input>
-)}
-            <input type='text' placeholder='Email Address' className='p-4 my-4 w-full bg-[#444444] text-white' ref={email}></input>
-            <input type='password' placeholder='Password' className='p-4 my-4 w-full bg-[#444444] text-white' ref={password}></input>
-           {errorMessage &&  <p className='text-red-500 font-bold text-lg py-2'>{errorMessage}</p>}
-            <button className='p-4 my-6 bg-red-700 w-full text-white font-medium rounded-md' onClick={handleButtonClick}>{ isSignInForm ? "Sign In" : "Sign Up"}</button>
-            <p onClick={toggleSignInForm} className='text-white cursor-pointer'>{ isSignInForm ? "New to Netflix? Sign Up" : "Already a User? Register Now"}</p>
-        </form>
-
+      <Header />
+      <div className="absolute">
+        <img className="min-h-screen w-[100vw]" src={BACKGROUND_URL} alt="bg" />
+      </div>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+        className="w-[full] md:w-1/4 bg-black bg-opacity-80 py-14 px-8 absolute my-36 right-0 left-0 mx-auto text-white rounded-md"
+      >
+        <h1 className="font-bold text-3xl py-2">{isSignInForm ? "Sign In" : "Sign Up"}</h1>
+        {!isSignInForm && (
+          <input
+            ref={name}
+            type="text"
+            placeholder="Name"
+            className="p-4 text-sm my-4 w-full bg-gray-600 rounded-md focus:outline-none"
+          />
+        )}
+        <input
+          ref={email}
+          type="email"
+          placeholder="Email Address"
+          className="p-4 text-sm my-4 w-full bg-gray-600 rounded-md focus:outline-none"
+        />
+        <input
+          ref={password}
+          type="password"
+          placeholder="Password"
+          className="p-4 text-sm my-4 w-full bg-gray-600 rounded-md focus:outline-none"
+        />
+        <p className="text-red-600">{errorMessage}</p>
+        <button onClick={handleButtonClick} className="p-3 my-6 bg-red-700 w-full rounded-md">
+          {isSignInForm ? "Sign In" : "Sign Up"}
+        </button>
+        <p className="py-2 text-sm cursor-pointer" onClick={toggleSignInForm}>
+          {isSignInForm ? (
+            <div>
+              New to Netflix? <span className="text-red-600 font-semibold"> Sign Up Now!</span>
+            </div>
+          ) : (
+            <div>
+              Already a User? <span className="text-red-600 font-semibold"> Sign In Now!</span>
+            </div>
+          )}
+        </p>
+      </form>
     </div>
-  )
-}
+  );
+};
 
 export default Login;
