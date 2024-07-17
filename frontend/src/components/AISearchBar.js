@@ -26,7 +26,7 @@ const AISearchBar = () => {
 
       try {
         const searchMovieTMDB = async(part)=>{
-          const data = await fetch(`https://api.themoviedb.org/3/search/movie?query=${part}}&api_key=API_KEY` , options );
+          const data = await fetch(`https://api.themoviedb.org/3/search/movie?query=${part}}` , options );
           const res = await data.json()
           return res.results
         
