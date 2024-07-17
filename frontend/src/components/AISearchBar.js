@@ -3,12 +3,12 @@ import lang from '../utils/languageConstant'
 import { useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { options } from '../utils/constants';
+import { GEMINI_AI_KEY, options } from '../utils/constants';
 import {useDispatch} from 'react-redux'
 import { setRecommendedMovies } from '../utils/gptSlice';
 import { useState } from 'react';
 
-const GptSearchBar = () => {
+const AISearchBar = () => {
   const [loading  , setLoading] = useState(false)
 
   const currentLang = useSelector(store => store.language.currentLang);
@@ -17,12 +17,12 @@ const GptSearchBar = () => {
   const  submitHandler = async()=> {
     if(searchText.current.value==="") return 
     setLoading(true)
-    const genAI = new GoogleGenerativeAI("AIzaSyCNsQkeai39OfYFfMRYaaAWEmwHyhDrb5Q");
+    const genAI = new GoogleGenerativeAI(GEMINI_AI_KEY);
 
       const model = genAI.getGenerativeModel({ model: "gemini-pro" }); 
       console.log(searchText.current.value)
 
-      const prompt = ` Act like a movie recommendation system and Give me names of 5 movies of the given category in query separated by comma and not in form of text in a single line : ${searchText.current.value}`;
+      const prompt = `Act like a movie recommendation system and Give me names of 5 movies of the given category in query separated by comma and not in form of text in a single line : ${searchText.current.value}`;
 
       try {
         const searchMovieTMDB = async(part)=>{
@@ -44,11 +44,7 @@ const GptSearchBar = () => {
         setLoading(false)
         console.error('Error: Try Again');
       }
-    
-
-   
-
-  }
+    }
 
   return (
     <div>
@@ -78,4 +74,4 @@ const GptSearchBar = () => {
   )
 }
 
-export default GptSearchBar
+export default AISearchBar

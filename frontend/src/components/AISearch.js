@@ -1,9 +1,10 @@
 import React from 'react'
-import GptSearchBar from './GptSearchBar'
-import GPTSuggetions from './GptSuggestions'
-import { BACKGROUND_URL } from '../utils/constants'
 
-const GptSearch = () => {
+import { BACKGROUND_URL } from '../utils/constants'
+import AISearchBar from './AISearchBar'
+import AISuggestions from './AISuggestions'
+
+const AISearch = () => {
 
   return (
  
@@ -16,11 +17,11 @@ const GptSearch = () => {
       />
     </div>
     <div>
-      <GptSearchBar />
-      <GPTSuggetions />
+      <AISearchBar />
+      <AISuggestions></AISuggestions>
     </div>
   </>
   )
 }
 
-export default GptSearch
+export default AISearch

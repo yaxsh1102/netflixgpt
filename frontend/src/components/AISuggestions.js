@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import MovieList from './MovieList';
 
-const GPTSuggetions = () => {
+const AISuggestions = () => {
     const { movieNames, recommendedMovies } = useSelector((store) => store.gpt);
     if (!movieNames) return null;
 
@@ -24,4 +24,4 @@ const GPTSuggetions = () => {
   )
 }
 
-export default GPTSuggetions
+export default AISuggestions

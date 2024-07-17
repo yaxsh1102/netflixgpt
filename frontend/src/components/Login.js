@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import Header from './Header';
 import { checkValidData } from '../utils/validate';
 import { addUser } from '../utils/userSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, } from 'react-redux';
 import { BACKGROUND_URL } from '../utils/constants';
 
 const Login = () => {
@@ -17,17 +17,67 @@ const Login = () => {
     setIsSignInForm(!isSignInForm);
   }
 
-  function handleButtonClick() {
+  async function handleLogin(userEmail, userPassword) {
+    try {
+      const response = await fetch('http://localhost:4000/api/v1/login', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email: userEmail, password: userPassword })
+      });
+
+      const res = await response.json();
+      console.log(res);
+      return res;
+    } catch (error) {
+      console.error('Error:', error);
+      return { success: false, message: error.message };
+    }
+  }
+
+  async function handleSignup(userName, userEmail, userPassword) {
+    try {
+      const response = await fetch('http://localhost:4000/api/v1/signup', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ name: userName, email: userEmail, password: userPassword })
+      });
+
+      const res = await response.json();
+      console.log(res);
+      return res;
+    } catch (error) {
+      console.error('Error:', error);
+      return { success: false, message: error.message };
+    }
+  }
+
+  async function handleButtonClick() {
     const userEmail = email.current.value;
     const userPassword = password.current.value;
-    const userName = name.current.value;
+    let userName = name.current ? name.current.value : '';
 
     const validationError = checkValidData(userEmail, userPassword);
     setErrorMessage(validationError);
 
     if (validationError) return;
 
-    dispatch(addUser({ email: userEmail, password: userPassword, displayName: userName }));
+    let res;
+    if (isSignInForm) {
+      res = await handleLogin(userEmail, userPassword);
+    } else {
+      res = await handleSignup(userName, userEmail, userPassword);
+    }
+
+    if (res.success === false) {
+      console.log(res)
+      setErrorMessage(res.message);
+    } else {
+      dispatch(addUser({ email: userEmail, password: userPassword, displayName: userName }));
+    }
   }
 
   return (
@@ -70,11 +120,11 @@ const Login = () => {
         <p className="py-2 text-sm cursor-pointer" onClick={toggleSignInForm}>
           {isSignInForm ? (
             <div>
-              New to Netflix? <span className="text-red-600 font-semibold"> Sign Up Now!</span>
+              New to Netflix? <span className="text-red-600 font-semibold">Sign Up Now!</span>
             </div>
           ) : (
             <div>
-              Already a User? <span className="text-red-600 font-semibold"> Sign In Now!</span>
+              Already a User? <span className="text-red-600 font-semibold">Sign In Now!</span>
             </div>
           )}
         </p>
