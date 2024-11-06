@@ -6,8 +6,8 @@ export const tmdb_url = 'https://api.themoviedb.org/3/movie/now_playing?language
   method: 'GET',
   headers: {
     accept: 'application/json',
-    Authorization: 'Bearer {****TMDB API ACCESSTOKEN****}'
+    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1M2ZjY2RkZGE0ODdkMTdlMjdlMTliMGY5MzFlNThhNiIsIm5iZiI6MTcyMDg2ODQ0My44OTYzODgsInN1YiI6IjY2OTE1ZGZhMGI4ZTNkNDE5MjllMjhiYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.FiAftAxavuD-490jr98ikbR9DsSJ1wKVsMVg_msdVws'
   }
 };
 export const IMG_CDN_URL = 'https://image.tmdb.org/t/p/w500/'
-export const GEMINI_AI_KEY = "{***GEMINI API_KEY***}"
+export const GEMINI_AI_KEY = "AIzaSyCNsQkeai39OfYFfMRYaaAWEmwHyhDrb5Q"

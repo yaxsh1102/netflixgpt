@@ -1,6 +1,5 @@
 import React, { useRef, useState } from 'react';
 import Header from './Header';
-import { checkValidData } from '../utils/validate';
 import { addUser } from '../utils/userSlice';
 import { useDispatch, } from 'react-redux';
 import { BACKGROUND_URL } from '../utils/constants';
@@ -60,15 +59,20 @@ const Login = () => {
     const userPassword = password.current.value;
     let userName = name.current ? name.current.value : '';
 
-    const validationError = checkValidData(userEmail, userPassword);
-    setErrorMessage(validationError);
-
-    if (validationError) return;
+   
 
     let res;
     if (isSignInForm) {
+      if(!userEmail || !userPassword){
+        setErrorMessage("Empty Fields")
+        return 
+      }
       res = await handleLogin(userEmail, userPassword);
     } else {
+      if(!userEmail || !userPassword || !userName){
+        setErrorMessage("Empty Fields")
+        return 
+      }
       res = await handleSignup(userName, userEmail, userPassword);
     }
 
