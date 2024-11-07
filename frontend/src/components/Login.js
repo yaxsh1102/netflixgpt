@@ -6,6 +6,7 @@ import { BACKGROUND_URL } from '../utils/constants';
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
+  const[loading , setLoading] = useState(false)
   const email = useRef(null);
   const password = useRef(null);
   const name = useRef(null);
@@ -18,7 +19,8 @@ const Login = () => {
 
   async function handleLogin(userEmail, userPassword) {
     try {
-      const response = await fetch('http://localhost:4000/api/v1/login', {
+      setLoading(true)
+      const response = await fetch('https://netflixgpt-zofh.onrender.com/api/v1/login', {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -32,12 +34,15 @@ const Login = () => {
     } catch (error) {
       console.error('Error:', error);
       return { success: false, message: error.message };
+    }finally{
+      setLoading(false)
     }
   }
 
   async function handleSignup(userName, userEmail, userPassword) {
     try {
-      const response = await fetch('http://localhost:4000/api/v1/signup', {
+      setLoading(true)
+      const response = await fetch('https://netflixgpt-zofh.onrender.com/api/v1/signup', {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -51,6 +56,8 @@ const Login = () => {
     } catch (error) {
       console.error('Error:', error);
       return { success: false, message: error.message };
+    }finally{
+      setLoading(false)
     }
   }
 
@@ -118,8 +125,8 @@ const Login = () => {
           className="p-4 text-sm my-4 w-full bg-gray-600 rounded-md focus:outline-none"
         />
         <p className="text-red-600">{errorMessage}</p>
-        <button onClick={handleButtonClick} className="p-3 my-6 bg-red-700 w-full rounded-md">
-          {isSignInForm ? "Sign In" : "Sign Up"}
+        <button onClick={handleButtonClick} className="p-3 my-6 bg-red-700 w-full rounded-md" disabled={loading}>
+       { !loading  ?  (isSignInForm ? "Sign In" : "Sign Up") :"Loading..."  }
         </button>
         <p className="py-2 text-sm cursor-pointer" onClick={toggleSignInForm}>
           {isSignInForm ? (
