@@ -15,7 +15,7 @@ const gptSLice = createSlice({
         setRecommendedMovies:(state  , action)=>{
             const {movies , movieNames} = action.payload
             state.recommendedMovies = movies;
-            state.movieNames = movieNames ;
+            state.movieNames = movieNames;
 
         }
     }
